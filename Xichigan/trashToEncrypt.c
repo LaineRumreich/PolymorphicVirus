@@ -1,45 +1,31 @@
-//This is a trash c program to test encryption/decryption with
+// This is junk used to test the encryption/decryption
 
+/*
+ * C program to illustrate how a file stored on the disk is read
+ */
 #include <stdio.h>
-#include <math.h>
-
-int main()
+#include <stdlib.h>
+ 
+void main()
 {
-    int low, high, i, temp1, temp2, remainder, n = 0, result = 0;
-
-    printf("Enter two numbers(intervals): ");
-    scanf("%d %d", &low, &high);
-    printf("Armstrong numbers between %d an %d are: ", low, high);
-
-    for(i = low + 1; i < high; ++i)
+    FILE *fptr;
+    char filename[15];
+    char ch;
+ 
+    printf("Enter the filename to be opened \n");
+    scanf("%s", filename);
+    /*  open the file for reading */
+    fptr = fopen(filename, "r");
+    if (fptr == NULL)
     {
-        temp2 = i;
-        temp1 = i;
-
-        // number of digits calculation
-        while (temp1 != 0)
-        {
-            temp1 /= 10;
-            ++n;
-        }
-
-        // result contains sum of nth power of its digits
-        while (temp2 != 0)
-        {
-            remainder = temp2 % 10;
-            result += pow(remainder, n);
-            temp2 /= 10;
-        }
-
-        // checks if number i is equal to the sum of nth power of its digits
-        if (result == i) {
-            printf("%d ", i);
-        }
-
-        // resetting the values to check Armstrong number for next iteration
-        n = 0;
-        result = 0;
-
+        printf("Cannot open file \n");
+        exit(0);
     }
-    return 0;
+    ch = fgetc(fptr);
+    while (ch != EOF)
+    {
+        printf ("%c", ch);
+        ch = fgetc(fptr);
+    }
+    fclose(fptr);
 }

