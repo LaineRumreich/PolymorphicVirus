@@ -10,6 +10,7 @@
 
 int main(int argc, char*argv[]) {
 	int ret;
+	int key;
 
 	/* Initialize Space for 2 Threads */
 	threads = (pthread_t *)malloc(sizeof(pthread_t)*2);
@@ -27,9 +28,10 @@ int main(int argc, char*argv[]) {
 
 	/* Encrypt File */
 	// Generate a new key and put it in the file key.txt
+	key = 8; // TODO randomize
 
 	// Encrypt the file using the key
-	//pthread_create(&threads[1], &attribute, encryptFile, NULL); /* create a new thread */
+	pthread_create(&threads[1], &attribute, encryptFile, &key); /* create a new thread */
 
 
 	// Do not explicitly wait for the thread to end

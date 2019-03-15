@@ -13,4 +13,4 @@ pthread_attr_t attribute;
 
 /* Function Prototypes */
 void* XtoM(void* param);
-//void generateThreads(int x, int index, int* currentThread); 
+void* encryptFile(void* key); 
