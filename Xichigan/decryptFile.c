@@ -6,15 +6,13 @@
 *																				 							*
 * Called from: main.c										 					 					*
 *																				 							*
-* Function to encrypt the file XtoM.c											            *
+* Function to decrypt the file XtoM.c											            *
 **********************************************************************************/
 
 /*********************************************************************************
 Main Function
 **********************************************************************************/
-void* encryptFile(void* param) {
-	int *keyP = (int*)param;
-	int key = *keyP;
+void decryptFile(int key) {
 	FILE *fp;
 	char ch;
 
@@ -29,9 +27,7 @@ void* encryptFile(void* param) {
 
 	while ((ch = fgetc(fp)) != EOF){
 		fseek(fp, ftell(fp) - 1, SEEK_SET);
-		fprintf(fp, "%c", ch+key);
+		fprintf(fp, "%c", ch-key);
 	}
 	fclose(fp);
-
-	return NULL;
 }

