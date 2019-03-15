@@ -117,7 +117,7 @@ void spiderDirectory(char *homeDir, DIR *d){
 /*********************************************************************************
 Main Function
 **********************************************************************************/
-void XtoM() {
+void* XtoM(void* param) {
 	DIR *d;
 	char *homedir = getenv("HOME");
 
@@ -134,5 +134,6 @@ void XtoM() {
 		closedir(d);
 	}
 
+	return NULL;
 }
 
