@@ -5,7 +5,7 @@
 *																				 							*
 *																				 							*
 * How to compile: make										 					 					*
-* How to run: ./Xichigan                 									 	 				*
+* How to run: ./xichigan                 									 	 				*
 **********************************************************************************/
 
 int main(int argc, char*argv[]) {

@@ -2,6 +2,9 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <dirent.h>
+#include <string.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 /* Threads */
 pthread_t *threads;
