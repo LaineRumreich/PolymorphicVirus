@@ -1,3 +1,10 @@
+/*
+ * copyworm.cpp
+ * Right now the code doesn't work-- it doesn't even compile--but 
+ * the structure is there to set up copying to all drives in the 
+ * computer.
+ */
+
 #include<windows.h>
 #include<functions.h>
 #include<fstream>
