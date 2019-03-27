@@ -16,7 +16,7 @@ void decryptFile(int key) {
 	FILE *fp;
 	char ch;
 
-	// Open the file XtoMCopy.c to encrypt
+	// Open the file MtoX.c to encrypt
 	fp = fopen("trashToEncrypt.c","r+");
 
 	// Read in the file 1 character at a time and print the value changed by key

