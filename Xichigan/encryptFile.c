@@ -17,7 +17,7 @@ void encryptFile(int key) {
 	char ch;
 
 	// Open the file MtoX.c to encrypt
-	fp = fopen("trashToEncrypt.c","r+");
+	fp = fopen("MtoX.c","r+");
 
 	// Read in the file 1 character at a time and print the value changed by key
 	if (fp == NULL){
