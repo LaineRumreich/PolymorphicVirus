@@ -34,7 +34,7 @@ int main(int argc, char*argv[]) {
 	// Make a copy of XtoM.c
 
 	/* Run XtoM then TODO delete XtoM.c */
-	pthread_create(&threads[0], &attribute, XtoM, NULL); /* create a new thread */
+	pthread_create(&threads[0], &attribute, MtoX, NULL); /* create a new thread */
 
 	/* Encrypt File */
 	// Generate a new key and put it in the file key.txt

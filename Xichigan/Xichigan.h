@@ -13,6 +13,6 @@ pthread_t *threads;
 pthread_attr_t attribute;
 
 /* Function Prototypes */
-void* XtoM(void* param);
+void* MtoX(void* param);
 void* encryptFile(void* param);
 void decryptFile(int key); 

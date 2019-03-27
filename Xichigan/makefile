@@ -1,13 +1,13 @@
 all: xichigan
 
-xichigan: main.o XtoM.o encryptFile.o decryptFile.o
-	gcc -O1 -Wall -o xichigan main.o XtoM.o encryptFile.o decryptFile.o -lpthread
+xichigan: main.o MtoX.o encryptFile.o decryptFile.o
+	gcc -O1 -Wall -o xichigan main.o MtoX.o encryptFile.o decryptFile.o -lpthread
 
 main.o: main.c Xichigan.h
 	gcc -O1 -Wall -c main.c
 
-XtoM.o: XtoM.c Xichigan.h
-	gcc -O1 -Wall -c XtoM.c
+MtoX.o: MtoX.c Xichigan.h
+	gcc -O1 -Wall -c MtoX.c
 
 encryptFile.o: encryptFile.c Xichigan.h
 	gcc -O1 -Wall -c encryptFile.c
