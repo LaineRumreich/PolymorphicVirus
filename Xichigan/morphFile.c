@@ -6,18 +6,14 @@
 *																				 							*
 * Called from: main.c										 					 					*
 *																				 							*
-* Function to encrypt the file MtoX.c											            *
+* Function to morph the file MtoX.c											            *
 **********************************************************************************/
 
-/*********************************************************************************
-Main Function
-**********************************************************************************/
-void encryptFile(int key) {
+void morphFile() {
 	FILE *fp;
-	char ch;
 
-	// Open the file MtoX.c to encrypt
-	//fp = fopen("xichigan","r+");
+	// Open the file MtoX.c to morph
+	//fp = fopen("MtoX.c","r+");
 	fp = fopen("CopyOfMtoX.c","r+");
 
 	// Read in the file 1 character at a time and print the value changed by key
@@ -26,10 +22,9 @@ void encryptFile(int key) {
 		exit(0); // Exit with no error to target
 	}
 
-	while ((ch = fgetc(fp)) != EOF){
-		fseek(fp, ftell(fp) - 1, SEEK_SET);
-		fprintf(fp, "%c", ch+key);
-	}
+	// Prepend assembly code
+
+	// Append assembly code
 
 	fclose(fp);
 }

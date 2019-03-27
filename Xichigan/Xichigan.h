@@ -6,9 +6,11 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <time.h>
 
 
 /* Function Prototypes */
 void MtoX();
 void encryptFile(int key);
 void decryptFile(int key); 
+void morphFile();

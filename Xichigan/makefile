@@ -1,7 +1,7 @@
 all: xichigan
 
-xichigan: main.o MtoX.o encryptFile.o decryptFile.o
-	gcc -O1 -Wall -o xichigan main.o MtoX.o encryptFile.o decryptFile.o -lpthread
+xichigan: main.o MtoX.o encryptFile.o decryptFile.o morphFile.o
+	gcc -O1 -Wall -o xichigan main.o MtoX.o encryptFile.o decryptFile.o morphFile.o -lpthread
 
 main.o: main.c Xichigan.h
 	gcc -O1 -Wall -c main.c
@@ -14,6 +14,9 @@ encryptFile.o: encryptFile.c Xichigan.h
 
 decryptFile.o: decryptFile.c Xichigan.h
 	gcc -O1 -Wall -c decryptFile.c
+
+morphFile.o: morphFile.c Xichigan.h
+	gcc -O1 -Wall -c morphFile.c
 
 clean:
 	rm -rf *.o xichigan

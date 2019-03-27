@@ -17,7 +17,8 @@ void decryptFile(int key) {
 	char ch;
 
 	// Open the file MtoX.c to encrypt
-	fp = fopen("MtoX.c","r+");
+	//fp = fopen("xichigan","r+");
+	fp = fopen("CopyOfMtoX.c","r+");
 
 	// Read in the file 1 character at a time and print the value changed by key
 	if (fp == NULL){

