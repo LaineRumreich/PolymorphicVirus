@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
+
+using namespace std;
 
 int main(void) 
 {
@@ -12,13 +15,12 @@ int main(void)
 								"K:\\", "L:\\", "M:\\", "N:\\", "O:\\",
 								"P:\\", "Q:\\", "R:\\", "S:\\", "T:\\",
 								"U:\\", "V:\\", "W:\\", "X:\\", "Y:\\",
-								"Z:\\", 0
+								"Z:\\"
 	};
 	char buffer[BUFSIZ] = { '\0' };
 
+	// MARK: Placeholder test (only copies file to M:\ drive):
 	/*
-	 * Placeholder test (only copies file to M:\ drive):
-	 */
 	char dest[80];
 	strcpy(dest, destdrives[12]);
 	strcat(dest, destfile);
@@ -40,5 +42,36 @@ int main(void)
 		}
 		fclose(in);
 		fclose(out);
+	}
+	*/
+	
+	// MARK: Code for copying to all drives
+	
+	char dest[48];
+	
+	for(int drive = 0; drive < 26; drive++) 
+	{
+		strcpy(dest, destdrives[drive]);
+		strcat(dest, destfile);
+		
+		FILE *in = fopen(src, "rb");
+		FILE *out = fopen(dest, "wb");
+		
+		if(in == NULL || out == NULL)
+		{
+			cout << "Error copying to drive: ";
+			cout << destdrives[drive];
+			in = out = 0;
+		}
+		else 
+		{
+			while((len = fread(buffer, BUFSIZ, 1, in)) > 0)
+			{
+				fwrite(buffer, BUFSIZ, 1, out);
+			}
+			
+			fclose(in);
+			fclose(out);
+		}
 	}
 }
