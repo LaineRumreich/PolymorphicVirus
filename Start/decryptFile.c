@@ -12,7 +12,6 @@
 void decryptFile(int key) {
 	FILE *xFp;
 	char ch;
-	int key;
 
 	/* 
 		Encrypt the file Xichigan.o using the key by performing a bitwise XOR
@@ -22,7 +21,7 @@ void decryptFile(int key) {
 	xFp = fopen("xichigan","rb+");
 	if (xFp == NULL){
 		//printf("Cannot open file \n");
-		return(0); // Exit with no error to target
+		exit(0); // Exit with no error to target
 	}
 
 	// Read in the file 1 character at a time and replace with the value changed by key

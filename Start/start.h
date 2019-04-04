@@ -5,5 +5,4 @@
 
 /* Function Prototypes */
 void decryptFile(int key); 
-void encryptFile(int key);
 void morphFile();
