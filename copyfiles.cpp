@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int main(void) 
 {
 	size_t len = 0;
-	std::string src = "C:\\autorun.inf";
-	std::string destfile = "autorun.inf";
-	std::string *destdrives[] = {"A:\\", "B:\\", "C:\\", "D:\\", "E:\\",
+	char src[] = "C:\\autorun.inf";
+	char destfile[] = "autorun.inf";
+	char *destdrives[] = {"A:\\", "B:\\", "C:\\", "D:\\", "E:\\",
 								"F:\\", "G:\\", "H:\\", "I:\\", "J:\\",
 								"K:\\", "L:\\", "M:\\", "N:\\", "O:\\",
 								"P:\\", "Q:\\", "R:\\", "S:\\", "T:\\",
@@ -18,7 +19,9 @@ int main(void)
 	/*
 	 * Placeholder test (only copies file to M:\ drive):
 	 */
-	std::string dest = destdrives[4] + destfile;
+	char dest[80];
+	strcpy(dest, destdrives[12]);
+	strcat(dest, destfile);
 
 	FILE *in = fopen(src, "rb");
 	FILE *out = fopen(dest, "wb");
