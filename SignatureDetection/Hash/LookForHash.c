@@ -158,7 +158,11 @@ int main() {
   			// read each file
     		while ((dir = readdir(currentD)) != NULL) {
     			// calculate the hash for the current file
-      			int check = calculateHash(dir->d_name);
+    			char fullFilePath[100];
+    			strcpy(fullFilePath, currentPath);
+    			strcat(fullFilePath, "/");
+    			strcat(fullFilePath, dir->d_name);
+      			int check = calculateHash(fullFilePath);
 
       			// check if hash matches a known virus 
 				int decrypt = checkForMatch(check, DecryptedFilePath);
