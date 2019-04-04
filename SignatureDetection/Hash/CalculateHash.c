@@ -26,8 +26,8 @@
 
 // to clear input from scanf
 void clearInput() {
-	int c;
-	while ((c = getchar()) != '\n' && c != EOF);
+	int ch;
+	while ((ch = getchar()) != '\n' && ch != EOF);
 	return;
 }
 
@@ -103,7 +103,7 @@ int main() {
 			return 1;
 		}
 
-		// calculate hash - just a sum of all characters ¯\_(ツ)_/¯
+		// calculate hash - just a sum of all characters 
 		// can probably make this more sophisticated if needed
 		int value = 0;
 		int ch;

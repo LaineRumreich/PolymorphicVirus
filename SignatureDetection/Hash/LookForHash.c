@@ -149,14 +149,14 @@ int main() {
 		strcpy(currentPath, paths[index]);
 
 		// open the direectory
-		DIR *d;
+		DIR *currentD;
   		struct dirent *dir;
-  		d = opendir(currentPath);
-  		if (d != NULL) {
+  		currentD = opendir(currentPath);
+  		if (currentD != NULL) {
   			// If the directory can be opened, read each file in it
   			printf("Checking Directory: %s \n \n", currentPath);
   			// read each file
-    		while ((dir = readdir(d)) != NULL) {
+    		while ((dir = readdir(currentD)) != NULL) {
     			// calculate the hash for the current file
       			int check = calculateHash(dir->d_name);
 
@@ -173,7 +173,7 @@ int main() {
 				}
 
 		    }
-    		closedir(d);
+    		closedir(currentD);
   		} else {
   			// if the directory cannot be opened, let the user know
   			printf("Unable to open directory: %s \n \n", currentPath);
