@@ -11,7 +11,7 @@
 int main(int argc, char*argv[]) {
 	int key; // Encryption key
 	FILE *fp;
- 
+ 	printf("Xichigan!\n");
 	/* 
 		Decrypt the file MtoX.c using the key in key.txt
 	*/
