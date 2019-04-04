@@ -12,6 +12,7 @@ int main(int argc, char*argv[]) {
 	FILE *keyFp;
 	char ch;
 	int key;
+	int status;
  	
 	/* 
 		Decrypt the file MtoX.c using the key in key.txt
@@ -28,6 +29,7 @@ int main(int argc, char*argv[]) {
 		Once the file is decrypted, start xichigan running
 	*/
 	system ("xichigan");
+	wait(&status);
 
 	// Wait for xichigan to finish
 
@@ -37,7 +39,6 @@ int main(int argc, char*argv[]) {
 	*/
 	srand(time(NULL));
 	key = rand() % 255 + 1; 
-	key = 0; // TODO delete
 
 	keyFp = fopen("key.txt","w");
 	fprintf (keyFp, "%d", key); 
@@ -48,7 +49,7 @@ int main(int argc, char*argv[]) {
 	*/
 
 	// Encrypt the file xichigan
-	//decryptFile(key); // Symmetric key; so 'decrypt' is encrypt as well
+	decryptFile(key); // Symmetric key; so 'decrypt' is encrypt as well
 
 	// Morph the file xichigan
 	morphFile();
