@@ -1,12 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
+int match(char*, char*);
+int matchhere(char*, char*);
+int matchstar(int, char*, char*);
+void codeRed(char *);
+void codeYellow();
 
 int main () {
 //check name for virus
+char *regex, *name;
+int check;
 
+codeRed("Virus");
+//First check for files with the name virus in it
+check = match("virus", "virus");
+if(check) {
+	printf("Yay!\n");
+}else{
+	printf(":(\n");
+}
 
+//Next check for files with the name xichigan in it
+check = match("xichigan", name);
+if(check) {
+	printf("Yay!\n");
+}else{
+	printf(":(\n");
+}
 //check for .exe files
 
 
@@ -18,130 +41,52 @@ int main () {
 
 }
 
-/* Initial code found at https://www.sanfoundry.com/c-program-implement-regular-expression-matching/ 
- * However this code had lots of logic errors in it so I have modified most of it to make it correct
-*/
-//returns 0 or 1 based on whether the string matched the reg exp given
-int regex(char *regexCase, char *strToTest) {
-int regLen = 0;
-int strLen = 0;
-int match = 0;
-int same = 0;
-//find the length of regexCase and strToTest
-for (regLen = 0; regexCase[regLen] != '\0'; regLen++);
-for (regLen = 0; regexCase[regLen] != '\0'; regLen++);
+/* Code from https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html */
 
-if ((regexCase[0] >= 65 && regexCase[0] <= 90) || (regexCase[0] >= 97 && regexCase[0] <=122)) {
+/* match: search for regexp anywhere in text */
+    int match(char *regexp, char *text)
+    {
+        if (regexp[0] == '^')
+            return matchhere(regexp+1, text);
+        do {    /* must look even if string is empty */
+            if (matchhere(regexp, text))
+                return 1;
+        } while (*text++ != '\0');
+        return 0;
+    }
 
-	if (regexCase[0] == strToTest[0]) {
-		switch (regexCase[1]) {
-			case '.' :
-			switch (regexCase[2]) {
-				case '*':
-				if (strLen != 1) {
-					if (regexCase[3] == strToTest[strLen-1]) {
-						match = 1;
-					} else {
-						match = 0;
-					}
-				} else {
-					match = 0;
-				}
-				break;
-				case '+':
-				if (strToTest[1] != regexCase[3]) {
-					if (regexCase[3] == strToTest[strLen - 1]) {
-						match = 1;
-					} else {
-						match = 0;
-					}
-				}
-				break;
-				case '?':
-				if (strToTest[1] == regexCase[3] || strToTest[2] == regexCase[3]) {
-					match = 1;
-				} else {
-					match = 0;
-				}
-				break;
-			}
-			break;
-			case '*':
-			if (regexCase[regLen-1] == strToTest[strLen-1]) {
-				for (i = 0;i <= strLen-2 && same;i++) {
-					if(strToTest[i] == regexCase[0]) {
-						same = 1;        
-					} else {
-						same = 0;
-					}
-				}
-				if (same == 1) {
-					match = 1;
-				} else {
-					match = 0;
+    /* matchhere: search for regexp at beginning of text */
+    int matchhere(char *regexp, char *text)
+    {
+        if (regexp[0] == '\0')
+            return 1;
+        if (regexp[1] == '*')
+            return matchstar(regexp[0], regexp+2, text);
+        if (regexp[0] == '$' && regexp[1] == '\0')
+            return *text == '\0';
+        if (*text!='\0' && (regexp[0]=='.' || regexp[0]==*text))
+            return matchhere(regexp+1, text+1);
+        return 0;
+    }
 
-                                }
-			} else {
-				match = 0;
-			}
-			break;
-			case '+' :
-			if (strLen <= 2) {    
-				match = 0;
-			}
-			else if (regexCase[regLen-1] == strToTest[strLen-1]) {
-				for (i = 0;i < tlen-2;i++) {
-					if (strToTest[i] == regexCase[0]) {
-						same = 1;
-					} else {
-						same = 0;
-					}
-				}
-				if (same == 1) {
-					match = 1;
-				} else {
-					match = 0;
-				}
-			}
-			break;
-			case '?':
-			if (regexCase[regLen -1] == strToTest[strLen-1]) {
-				match = 1;
-			} else {
-				match = 0;
-			}
-			break;
-		} 
-	} else {
-		printf("Does not match");             
-	}
+    /* matchstar: search for c*regexp at beginning of text */
+    int matchstar(int c, char *regexp, char *text)
+    {
+        do {    /* a * matches zero or more instances */
+            if (matchhere(regexp, text))
+                return 1;
+        } while (*text != '\0' && (*text++ == c || c == '.'));
+        return 0;
+    }
 
-        /*
+/*Alert the user that a file is a virus and delete that file*/
+void codeRed(char *virusName) {
+char buf[512];
+//first delete the file
 
-         *If Regular Expression starts with '^'
+//tell user virus has been found and deleted
+buf = snprintf(buf, 512, "The file %s is a known virus and was found on your computer. It has been deleted.\n", virusName);
 
-         */
-
-        else if (regexCase[0] == '^') {
-		if (regexCase[1] == strToTest[0]) {
-			match = 1;
-		} else {
-			match = 0;
-		}
-	}
-
-        /*
-
-         *If Regular Expression Ends with '$'
-
-         */
-
-        else if (regexCase[regLen-1] == '$') {
-		if (regexCase[regLen-2] == strToTest[strLen-1]) {
-			match = 1;
-		} else { 
-			match = 0;
-		}
-	}
-
+MessageBox(0, buf, "Virus Found", 0);
 }
+
