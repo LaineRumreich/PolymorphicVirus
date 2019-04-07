@@ -1,0 +1,3 @@
+/home/falther1/Security/CSE-4471-Project/SignatureDetection/Hash
+/home/falther1/Security/CSE-4471-Project/SignatureDetection/Hash/Test
+/home/falther1/Security/CSE-4471-Project/Xichigan
