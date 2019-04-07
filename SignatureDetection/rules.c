@@ -1,13 +1,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <windows.h>
 
+int match(char*, char*);
+int matchhere(char*, char*);
+int matchstar(int, char*, char*);
+void codeRed(char *);
+void codeYellow();
 
 int main () {
 //check name for virus
 char *regex, *name;
+int check;
 
+codeRed("Virus");
+//First check for files with the name virus in it
+check = match("virus", "virus");
+if(check) {
+	printf("Yay!\n");
+}else{
+	printf(":(\n");
+}
 
+//Next check for files with the name xichigan in it
+check = match("xichigan", name);
+if(check) {
+	printf("Yay!\n");
+}else{
+	printf(":(\n");
+}
 //check for .exe files
 
 
@@ -57,4 +79,14 @@ char *regex, *name;
         return 0;
     }
 
+/*Alert the user that a file is a virus and delete that file*/
+void codeRed(char *virusName) {
+char buf[512];
+//first delete the file
+
+//tell user virus has been found and deleted
+buf = snprintf(buf, 512, "The file %s is a known virus and was found on your computer. It has been deleted.\n", virusName);
+
+MessageBox(0, buf, "Virus Found", 0);
+}
 
