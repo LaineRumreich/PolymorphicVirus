@@ -18,8 +18,9 @@
 #include <dirent.h> 
 
 // Paths and max path length
-#define EncryptedFilePath "MtoXEncrypted.txt"
-#define DecryptedFilePath "MtoXDecrypted.txt"
+#define EncryptedFilePath "XichiganEncrypted.txt"
+#define DecryptedFilePath "XichiganDecrypted.txt"
+#define MutationFilePath "Mutation.txt"
 #define PATHS "Paths.txt"
 #define MAXLENGTH 100
 
@@ -167,9 +168,10 @@ int main() {
       			// check if hash matches a known virus 
 				int decrypt = checkForMatch(check, DecryptedFilePath);
 				int encrypt = checkForMatch(check, EncryptedFilePath);
+				int mutation = checkForMatch(check, MutationFilePath);
 
 				// if there is a match, let the user know
-				if (decrypt || encrypt) {
+				if (decrypt || encrypt || mutation) {
 					printf("WARNING: Detected Possible Virus! \n");
 					printf("SUSPECT FILE: %s \n", dir->d_name);
 					printf("If you do not recognize this file, please delete it! \n");
