@@ -14,12 +14,14 @@
 #include <string.h>
 
 // Define the files that can be read
-#define MtoXEncrypted 1
-#define MtoXDecrypted 2
+#define XichiganEncrypted 1
+#define XichiganDecrypted 2
+#define Mutation 3
 
 // Paths for all hashes for each file to be read
-#define EncryptedFilePath "MtoXEncrypted.txt"
-#define DecryptedFilePath "MtoXDecrypted.txt"
+#define EncryptedFilePath "XichiganEncrypted.txt"
+#define DecryptedFilePath "XichiganDecrypted.txt"
+#define MutationFilePath "Mutation.txt"
 
 // Max file name length
 #define MAXLENGTH 20
@@ -41,8 +43,9 @@ int main() {
 	while (cont) {
 		// Get type of file
 		printf("What file are you scanning? \n");
-		printf("1. MtoX Encrypted \n");
-		printf("2. MtoX Decrypted \n");
+		printf("1. Xichigan Encrypted \n");
+		printf("2. Xichigan Decrypted \n");
+		printf("3. Mutation \n");
 		printf("0. Exit \n");
 		printf("Enter choice: ");
 		scanf ("%d",&currentChoice);
@@ -50,7 +53,7 @@ int main() {
 		printf("\n");
 
 		// break if a valid file isn't entered
-		if (currentChoice != MtoXEncrypted && currentChoice != MtoXDecrypted) {
+		if (currentChoice != XichiganEncrypted && currentChoice != XichiganDecrypted && currentChoice != Mutation) {
 			cont = 0;
 			break;
 		}
@@ -91,12 +94,16 @@ int main() {
 
 		// Get the hash file to appened to
 		FILE *outputFile;
-		if (currentChoice == MtoXEncrypted) {
+		if (currentChoice == XichiganEncrypted) {
 			outputFile = fopen(EncryptedFilePath, "a");
 
-		} else if (currentChoice == MtoXDecrypted) {
+		} else if (currentChoice == XichiganDecrypted) {
 			outputFile = fopen(DecryptedFilePath, "a");
+		} else if (currentChoice == Mutation) {
+			outputFile = fopen(MutationFilePath, "a");
 		} 
+
+
 		// if hash file cannot be opend, end program
 		if (outputFile == NULL) {
 			printf("Unable to open output file, ending program. \n");
@@ -127,3 +134,8 @@ int main() {
 	return 0;
 }
 
+/*
+key.txt
+mutation.o - start.o (currently)
+Xichigan.o - encrypted
+*/

