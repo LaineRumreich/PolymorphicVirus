@@ -17,6 +17,7 @@ using namespace std;
  * Written by Nicholas Allen
  * allen.2020@osu.edu
  */
+
 int copyTextFile(char *src, char *dest);
 int copyBinaryFile(char *src, char *dest);
 int deleteFile(char *file);
@@ -72,51 +73,6 @@ int main(void)
 			deleteFile(dest);
 			copyBinaryFile(src, dest);
 		}
-		/*for(int file = 0; file < numFiles; file++)
-		{
-			strcpy(src, filenames[file]);
-			
-			strcpy(dest, destdrives[drive]);
-			strcat(dest, filenames[file]);
-			
-			// Remove file if it already exists on disk
-			if(remove(dest))
-			{
-				cout << "File " << dest;
-				cout << " does not already exist or could not be deleted." << endl;
-			}
-			else
-			{
-				cout << "File " << dest;
-				cout << " successfully deleted." << endl;
-			}
-			
-			FILE *in = fopen(src, "rb");
-			FILE *out = fopen(dest, "wb");
-			
-			if(in == NULL || out == NULL)
-			{
-				cout << "Error copying " << filenames[file];
-				cout << " to drive " << destdrives[drive];
-				cout << endl;
-				
-				in = out = 0;
-			}
-			else
-			{
-				while((len = fread(buffer, BUFSIZ, 1, in)) > 0)
-				{
-					fwrite(buffer, BUFSIZ, 1, out);
-				}
-				
-				cout << "Successfully wrote " << filenames[file];
-				cout << " to " << destdrives[drive];
-				cout << endl;
-				
-				fclose(in);
-				fclose(out);
-			}
-		}*/
 	}
 	
 	//Move mutation engine to somewhat-hidden directory
