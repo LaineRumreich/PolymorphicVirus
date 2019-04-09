@@ -16,7 +16,7 @@ int NUM_FILES_TO_IGNORE;
 int CURRENT_SIZE;
 
 int main () {
-	checkRules("xichigan.docx");
+	checkRules("xichigan.c");
 }
 
 
@@ -25,33 +25,63 @@ void checkRules(char* name) {
 char *regex;
 int check = 0;
 
-//codeYellow("Virus");
+//check for .doc, .txt, and .pdf extensions and ignore them 
+check = match(".*.doc", name);
+if(check) {
+	return;
+}
+
+check = match(".*.txt", name);
+if(check) {
+	return;
+}
+
+check = match(".*.pdf", name);
+if(check) {
+	return;
+}
+
+check = match(".*.ppt", name);
+if(check) {
+	return;
+}
 //First check for files with the name virus in it
 check = match("virus", name);
 if(check) {
 	codeRed(name);
+	return;
 }
 
 //Next check for files with the name xichigan in it
 check = match("xichigan", name);
 if(check) {
 	codeRed(name);
+	return;
 }
+
+//next check the files for the name mutationEngine
+check = match("mutationEngine", name);
+if(check) {
+	codeRed(name);
+	return;
+}
+
 //check for .exe files
 check = match(".*.exe", name);
 if(check) {
 	codeYellow(name);
-} 
-//check file size?
+	return;
+}
 
-
-//check encryption?
-
-
+//check for .exe files
+check = match(".*.o", name);
+if(check) {
+	codeYellow(name);
+	return;
+}
 }
 
 /* Code from https://www.cs.princeton.edu/courses/archive/spr09/cos333/beautiful.html */
-
 /* match: search for regexp anywhere in text */
     int match(char *regexp, char *text)
     {
