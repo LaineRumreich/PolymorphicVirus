@@ -3,7 +3,7 @@
 #include <string.h>
 #include <windows.h>
 
-int checkRules(char*);
+void checkRules(char*);
 int match(char*, char*);
 int matchhere(char*, char*);
 int matchstar(int, char*, char*);
@@ -16,22 +16,20 @@ int NUM_FILES_TO_IGNORE;
 int CURRENT_SIZE;
 
 int main () {
-	
+	checkRules("xichigan.docx");
 }
 
 
-int checkRules(char* name) {
+void checkRules(char* name) {
 //check name for virus
 char *regex;
-int check;
+int check = 0;
 
-codeYellow("Virus");
+//codeYellow("Virus");
 //First check for files with the name virus in it
-check = match("virus", "virus");
+check = match("virus", name);
 if(check) {
-	printf("Yay!\n");
-}else{
-	printf(":(\n");
+	codeRed(name);
 }
 
 //Next check for files with the name xichigan in it
@@ -40,8 +38,10 @@ if(check) {
 	codeRed(name);
 }
 //check for .exe files
-
-
+check = match(".*.exe", name);
+if(check) {
+	codeYellow(name);
+} 
 //check file size?
 
 
@@ -123,16 +123,19 @@ void codeYellow(char* virusName) {
 		NUM_FILES_TO_IGNORE++;
 		//check to see if the array needs to be increased
 		if(NUM_FILES_TO_IGNORE > CURRENT_SIZE - 1) {
-			char temp[CURRENT_SIZE] = IGNORE_THESE_FILES;
+			char temp[CURRENT_SIZE];
+			for(int i = 0; i < CURRENT_SIZE; i++) {
+				temp[i] = IGNORE_THESE_FILES[i];
+			}
 			char IGNORE_THESE_FILES[CURRENT_SIZE * 2];
 			//add filenames back to the array
 			for(int i = 0; i < CURRENT_SIZE; i++) {
 				IGNORE_THESE_FILES[i] = temp[i];
 			}
-			IGNORE_THESE_FILES[NUM_FILES_TO_IGNORE] = virusName;
+			IGNORE_THESE_FILES[NUM_FILES_TO_IGNORE] = *virusName;
 			CURRENT_SIZE *= 2;
 		} else {
-			IGNORE_THESE_FILES[NUM_FILES_TO_IGNORE] = virusName;
+			IGNORE_THESE_FILES[NUM_FILES_TO_IGNORE] = *virusName;
 		}
 	} else {
 		//get the full path name
