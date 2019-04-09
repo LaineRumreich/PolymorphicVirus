@@ -59,8 +59,29 @@ if(check) {
 	return;
 }
 
+//Next check for files with the name xichigan in it
+check = match("trojan", name);
+if(check) {
+	codeRed(name);
+	return;
+}
+
+//Next check for files with the name xichigan in it
+check = match("keylogger", name);
+if(check) {
+	codeRed(name);
+	return;
+}
+
 //next check the files for the name mutationEngine
 check = match("mutationEngine", name);
+if(check) {
+	codeRed(name);
+	return;
+}
+
+//next check the files for the name Invader
+check = match("Invader", name);
 if(check) {
 	codeRed(name);
 	return;
@@ -73,8 +94,22 @@ if(check) {
 	return;
 }
 
-//check for .exe files
+//check for .o files
 check = match(".*.o", name);
+if(check) {
+	codeYellow(name);
+	return;
+}
+
+//check for .com files
+check = match(".*.com", name);
+if(check) {
+	codeYellow(name);
+	return;
+}
+
+//check for common virus names
+check = match("Meve", name);
 if(check) {
 	codeYellow(name);
 	return;
