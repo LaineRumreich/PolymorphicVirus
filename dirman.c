@@ -18,9 +18,17 @@
 
 int check_for_mod(char* path, FILE* fp);
 int reprint_file(FILE* fp, int skip_pos, time_t new_time);
-
+void print_headers();
 
 char* file_name;
+
+
+void print_headers()
+{
+	//printf("FILE PATH\t\t\t|\tLAST UPDATE\t\t|\tSTATUS\t\t\n");
+	//printf("---------------------------------------------------------------------------------------------\n");
+
+}
 
 int check_for_mod(char* path, FILE* fp)
 {
@@ -61,17 +69,23 @@ int check_for_mod(char* path, FILE* fp)
 
 		strftime(buf1, 26, "%Y-%m-%d %H:%M:%S", tm_inf1);
 		strftime(buf2, 26, "%Y-%m-%d %H:%M:%S", tm_inf2);
-
-
-		printf("Prior update: %s\n", buf2);
-		printf("Recent update: %s\n", buf1);
+		//printf("%s\t\t", buf1);
+		char msg[1024] = "zenity --error --text \'<span font=\"14\">The following file has been modified: ";
+	        strcat(msg, temp_path);
+		strcat(msg, "</span>' --title=\"Warning!\" --width=600 --height=150");
 
 		if (diff < 0)
 		{
 			reprint_file(fp, count, si.st_mtime);
+			//printf("MOD\t\t\n");
+			system(msg);
 		}
-
-		return (int)diff;
+		else
+		{
+			//printf("IDLE\t\t\n");
+	
+		}
+		//printf("---------------------------------------------------------------------------------------------\n");
 	}
 	else
 	{
@@ -117,6 +131,7 @@ int main(int argc, char* argv[])
 {
 	while(1)
 	{
+		print_headers();
 		DIR* tar_dir;
 		struct dirent *entry;
 
@@ -136,15 +151,7 @@ int main(int argc, char* argv[])
 				printf("Invalid file.\n\n");
 				return -1;
 			}
-			else
-			{
-				//printf("File opened for writing.\n\n");
-			}
 		}
-		else
-		{
-			//printf("File opened for reading/writing.\n\n");
-		}	
 
 		if(!(tar_dir = opendir(argv[1])))
 		{
@@ -167,25 +174,13 @@ int main(int argc, char* argv[])
 				snprintf(full_path, sizeof(full_path), "%s", path);
 				strcat(full_path, "/");
 				strcat(full_path, file_path);
-				printf("%s\n", full_path);	
+				//printf("%s\t\t", full_path);	
 				int check = check_for_mod(full_path, fp);
-	
-				if (check < 0)
-				{
-					printf("This file has been modified.\n\n");
-				}
-				else
-				{
-					printf("This file has not been modified since it was last accessed.\n\n");
-				}			
 			}
 		}
-
-		sleep(5);
 
 		closedir(tar_dir);
 		fclose(fp);
 	}
-
 	return 0;
 }
