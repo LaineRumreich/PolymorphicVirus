@@ -94,7 +94,7 @@ void spiderDirectory(char *homeDir, DIR *d){
 			If the current item in the directory is a .txt, convert all Ms to Xs
 		*/
 		length = strlen(currentDir);
-		if(length > 4 && strcmp(&currentDir[length-4],".txt") == 0){ //TODO text files without .txt
+		if(length > 4 && strcmp(&currentDir[length-4],".txt") == 0){ 
 			convertMtoX(currentDir);
 		}
 
@@ -125,7 +125,7 @@ Main Function
 int main(int argc, char*argv[]) {
 	DIR *d;
 	char *homedir = getenv("HOME");
-	printf("Hello\n");
+
 	// Get the Desktop path if user is using Linux
 	strcat(homedir,"/Desktop");
 
