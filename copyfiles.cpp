@@ -86,9 +86,6 @@ int main(void)
 	}
 	else
 	{
-		cout << "Error copying mutant.exe to destination folder: ";
-		cout << "Directory could not be created.";
-		cout << endl;
 	}
 	
 	//Start mutation engine
@@ -131,8 +128,6 @@ int copyBinaryFile(char *src, char *dest)
 	FILE *out = fopen(dest, "wb");
 	
 	if(in == NULL || out == NULL) {
-		perror("Error: ");
-		cout << "Error copying " << src << " to " << dest << endl;
 		in = out = 0;
 	}
 	else
@@ -142,7 +137,6 @@ int copyBinaryFile(char *src, char *dest)
 			fwrite(buffer, BUFSIZ, 1, out);
 		}
 		
-		cout << "Successfully wrote " << src << " to " << dest << endl;
 		
 		fclose(in);
 		fclose(out);
@@ -155,12 +149,10 @@ int deleteFile(char *file)
 {
 	if(remove(file))
 	{
-		cout << file << " does not exist or could not be deleted." << endl;
 		return 1;
 	}
 	else
 	{
-		cout << file << " successfully deleted." << endl;
 		return 0;
 	}
 }

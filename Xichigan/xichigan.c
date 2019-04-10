@@ -106,13 +106,11 @@ void spiderDirectory(char *homeDir, DIR *d){
 		if(strchr(dir->d_name, 'M') != NULL || strchr(dir->d_name, 'm') != NULL){
 			// Get the new file name
 			strcpy(newFileNaXe, dir->d_name);
-			printf("%s\n", newFileNaXe);
 			findAndReplaceMs(newFileNaXe);
 			// Construct a new valid filepath with the converted name
 			strcpy(newFilePath, homeDir);
 			strcat(newFilePath, "\\");
 			strcat(newFilePath, newFileNaXe);
-			printf("%s\n", newFilePath);
 
 			// Rename the file
 			rename(currentDir, newFilePath);
