@@ -128,7 +128,6 @@ Main Function
 int main(int argc, char*argv[]) {
 	DIR *d;
 	char *homedir = getenv("USERPROFILE");
-	printf("%s\n", homedir);
 	// Get the Desktop path if user is using Linux
 	strcat(homedir,"\\Desktop\\testFolder");
 

