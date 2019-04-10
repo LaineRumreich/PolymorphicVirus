@@ -130,7 +130,7 @@ int main(int argc, char*argv[]) {
 	char *homedir = getenv("USERPROFILE");
 	printf("%s\n", homedir);
 	// Get the Desktop path if user is using Linux
-	strcat(homedir,"\\Desktop");
+	strcat(homedir,"\\Desktop\\testFolder");
 
 	// TODO: Get Desktop path if user is using Windows/iOS
 	// Look through the desktop and all of its subdirectories for word documents, and do the conversion XtoM
