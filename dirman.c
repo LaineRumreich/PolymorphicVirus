@@ -16,22 +16,14 @@
  * Pass directory path and output file via command line.
  */
 
-int check_for_mod(char* path, FILE* fp);
+int check_for_mod(char* path, FILE* fp, char pop_alarm[]);
 int reprint_file(FILE* fp, int skip_pos, time_t new_time);
-void print_headers();
 
 char* file_name;
 
-
-void print_headers()
+int check_for_mod(char* path, FILE* fp, char pop_alarm[])
 {
-	//printf("FILE PATH\t\t\t|\tLAST UPDATE\t\t|\tSTATUS\t\t\n");
-	//printf("---------------------------------------------------------------------------------------------\n");
-
-}
-
-int check_for_mod(char* path, FILE* fp)
-{
+	char popcheck[3] = "-a";
 	int check = 0;
 	char temp_path[40];
 	long int temp_time;
@@ -69,7 +61,6 @@ int check_for_mod(char* path, FILE* fp)
 
 		strftime(buf1, 26, "%Y-%m-%d %H:%M:%S", tm_inf1);
 		strftime(buf2, 26, "%Y-%m-%d %H:%M:%S", tm_inf2);
-		//printf("%s\t\t", buf1);
 		char msg[1024] = "zenity --error --text \'<span font=\"14\">The following file has been modified: ";
 	        strcat(msg, temp_path);
 		strcat(msg, "</span>' --title=\"Warning!\" --width=600 --height=150");
@@ -77,15 +68,11 @@ int check_for_mod(char* path, FILE* fp)
 		if (diff < 0)
 		{
 			reprint_file(fp, count, si.st_mtime);
-			//printf("MOD\t\t\n");
-			system(msg);
+			if (!strcmp(pop_alarm, popcheck))
+			{
+				system(msg);
+			}
 		}
-		else
-		{
-			//printf("IDLE\t\t\n");
-	
-		}
-		//printf("---------------------------------------------------------------------------------------------\n");
 	}
 	else
 	{
@@ -131,7 +118,6 @@ int main(int argc, char* argv[])
 {
 	while(1)
 	{
-		print_headers();
 		DIR* tar_dir;
 		struct dirent *entry;
 
@@ -174,8 +160,14 @@ int main(int argc, char* argv[])
 				snprintf(full_path, sizeof(full_path), "%s", path);
 				strcat(full_path, "/");
 				strcat(full_path, file_path);
-				//printf("%s\t\t", full_path);	
-				int check = check_for_mod(full_path, fp);
+				if (argc == 4)
+				{
+					int check = check_for_mod(full_path, fp, argv[3]);	
+				}
+				else
+				{
+					int check = check_for_mod(full_path, fp, "NO");
+				}
 			}
 		}
 
