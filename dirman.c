@@ -16,12 +16,12 @@
  * Pass directory path and output file via command line.
  */
 
-int check_for_mod(char* path, FILE* fp, char pop_alarm[]);
+int check_for_mod(char* path, FILE* fp, char pop_alarm[], FILE* out);
 int reprint_file(FILE* fp, int skip_pos, time_t new_time);
 
 char* file_name;
 
-int check_for_mod(char* path, FILE* fp, char pop_alarm[])
+int check_for_mod(char* path, FILE* fp, char pop_alarm[], FILE* out)
 {
 	char popcheck[3] = "-a";
 	int check = 0;
@@ -72,6 +72,8 @@ int check_for_mod(char* path, FILE* fp, char pop_alarm[])
 			{
 				system(msg);
 			}
+		fprintf(out, "%s\t", path);
+		fprintf(out, "%s\n", buf1);
 		}
 	}
 	else
@@ -145,6 +147,8 @@ int main(int argc, char* argv[])
 			return -1;
 		}
 
+		FILE *out = fopen("detectionLog.txt", "a+");
+
 		while((entry = readdir(tar_dir)) != NULL)
 		{
 			if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
@@ -162,17 +166,18 @@ int main(int argc, char* argv[])
 				strcat(full_path, file_path);
 				if (argc == 4)
 				{
-					int check = check_for_mod(full_path, fp, argv[3]);	
+					int check = check_for_mod(full_path, fp, argv[3], out);	
 				}
 				else
 				{
-					int check = check_for_mod(full_path, fp, "NO");
+					int check = check_for_mod(full_path, fp, "NO", out);
 				}
 			}
 		}
 
 		closedir(tar_dir);
 		fclose(fp);
+		fclose(out);
 	}
 	return 0;
 }

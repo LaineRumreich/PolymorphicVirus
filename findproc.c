@@ -22,11 +22,11 @@ pid_t checkproc(char* dir)
 		{
 			char path[2048];
 			snprintf(path, sizeof(path), "%s", entry->d_name);
-			/*char* pid_dir = dir;
+			char* pid_dir = dir;
 			strcat(pid_dir, "/");
 			strcat(pid_dir, path);
-			printf("subdir: %s\n", pid_dir);
-			if(!(ind_proc = opendir(pid_dir)))
+			//printf("subdir: %s\n", pid_dir);
+			/*if(!(ind_proc = opendir(pid_dir)))
 			{
 				return -1;
 			}*/	
@@ -61,6 +61,7 @@ int main()
 	
 	pid = checkproc(dir);
 
+/*
 	if(kill_proc(pid) == 1)
 	{
 		printf("Process killed successfully...");
@@ -69,6 +70,7 @@ int main()
 	{
 		printf("Error: process not killed...");
 	}
+*/
 
 	printf("Opened: %d\n", 1);
 	return 0;

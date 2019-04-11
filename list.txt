@@ -1,0 +1,6 @@
+/home/nathan/testFolder/file.txt
+1554954074
+/home/nathan/testFolder/.goutputstream-RQRMZZ
+1554954074
+/home/nathan/testFolder/file.txt
+1554953902
