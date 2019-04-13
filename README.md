@@ -1,5 +1,4 @@
-# CSE-4471-Project 
-Polymorphic Virus & Countermeasures
+# Polymorphic Virus & Countermeasures
 
 This repository contains the code for the xichigan virus and an antivirus software suite. 
 
